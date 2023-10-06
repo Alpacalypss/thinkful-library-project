@@ -29,20 +29,34 @@ Each object in the returned array has two keys:
 
 Even if there is a tie, the array should only contain no more than five objects. */
 
-function getMostCommonGenres(books) {
-  let map = {};
-  books.forEach((check) => {
-    if (map[check.genre]) {
-      map[check.genre]++;
+const countObj = {};
+function createCount(books) {
+  books.forEach((book) => {
+    if (countObj[book.genre]) {
+      countObj[book.genre]++
     }
     else {
-      map[check.genre] = 1
+      countObj[book.genre] = 1;
     }
   });
-  return Object.entries(map).map(([name, count]) => {
-      return {name, count}
-  }).sort((a, b) => a.count < b.count ? 1 : -1) //ternary operator optional due to above if/else, could also be written b.count - a.count
-  .slice(0, 5); //slice method in place of a .length to limit to top 5
+  return countObj
+}
+
+function getMostCommonGenres(books) {
+  const map = [];
+  let newObj = {};
+  createCount(books);
+  for (let item in countObj) {
+    const genre = item
+    const counter = countObj[item];
+    newObj = {
+      name: genre,
+      count: counter
+    };
+    map.push(newObj)
+  }
+  return map.sort((a, b) => b.count - a.count)
+  .slice(0, 5);
 };
  
 /* It returns an array containing five objects or fewer that represents the most popular books in the library. Popularity is represented by the number of times a book has been borrowed.
