@@ -12,19 +12,20 @@ const sortAccountsByLastName = accounts => {
     const nameA = a.name.last;
     const nameB = b.name.last;
     if(nameA < nameB)
-      return -1
+      return -1;
     if(nameB < nameA)
-      return 1
-  })
-  return sorted
-}
+      return 1;
+  });
+  return sorted;
+};
+
 
 function getTotalNumberOfBorrows(account, books) {
   const {id: personID} = account;
   return books.reduce((total, book) => {
     return (total + book.borrows.filter(borrow => borrow.id === personID)
                                 .reduce((totalBorrows, borrow) => totalBorrows+1, 0)
-  )}, 0)
+  )}, 0);
 };
 
 //declare final array variable
@@ -51,7 +52,7 @@ function getBooksPossessedByAccount(account, books, authors) {
         result.push(bookInfo);
         borrowResult.push(ifBorrowed);
         bookInfo.borrows = borrowResult;
-        bookInfo.author = authors.filter((auth) => auth.id === bookInfo.authorId)[0]; //why the array [0] at the end?
+        bookInfo.author = authors.filter((auth) => auth.id === bookInfo.authorId)[0]; //[0] returns object information nested in the array as an object of the index value
       };
     });
   });
@@ -64,3 +65,4 @@ module.exports = {
   getTotalNumberOfBorrows,
   getBooksPossessedByAccount,
 };
+
